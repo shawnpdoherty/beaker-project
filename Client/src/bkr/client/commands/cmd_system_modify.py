@@ -56,6 +56,11 @@ Options
    access policy. This must be specified only once, and is mutually
    exclusive with :option:`--pool-policy`.
 
+.. option:: --lab-controller-id <id>
+
+   Lab controller ID of the system. This value must be a valid id integer
+   configured by the Beaker administrator.
+
 .. option:: --location <location>
 
    Physical location of the system.
@@ -148,6 +153,8 @@ class System_Modify(BeakerCommand):
         self.parser.add_option('--use-custom-policy', action='store_true', default=None,
                                help="Change active access policy to the "
                                     "system's custom access policy")
+        self.parser.add_option('--lab-controller-id',
+                               help='lab controller id of the system')
         self.parser.add_option('--location',
                                help='Physical location of the system')
         self.parser.add_option('--mac-address',
@@ -196,8 +203,8 @@ class System_Modify(BeakerCommand):
         if custom_policy:
             system_attr['active_access_policy'] = {'custom': True}
 
-        attrs = ['location', 'mac_address', 'power_type', 'power_address',
-                 'power_user', 'power_password', 'power_id',
+        attrs = ['lab_controller_id', 'location', 'mac_address', 'power_type',
+                 'power_address', 'power_user', 'power_password', 'power_id',
                  'power_quiescent_period', 'release_action']
         for attr in attrs:
             value = kwargs.pop(attr, None)
